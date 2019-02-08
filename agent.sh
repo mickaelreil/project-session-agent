@@ -1,6 +1,9 @@
 #!/bin/bash
 
 #PASSWD
+id=$1
+log_f="log.tmp"
+center="mickael@172.16.131.74"
 
 if [ "$PASS" = "" ]
 then
@@ -11,10 +14,6 @@ then
     sed -e 's/^#PASSWD/PASS="'$PASS'"/g' agent.sh > agent.tmp.sh
 fi
 
-id=$1
-log_f="log.tmp"
-
-center="mickael@172.16.131.74"
 
 host=$USER"@"$(ip a | grep "inet " | tail -1 | cut -d " " -f 6 | cut -d "/" -f 1)
 
@@ -32,12 +31,15 @@ sshpass -p $PASS ssh-copy-id -o StrictHostKeyChecking=no $center 2> /dev/null;
 
 scp -o StrictHostKeyChecking=no $host:config $remote:config;
 scp -o StrictHostKeyChecking=no $host:agent.tmp.sh $remote:agent.tmp.sh;
-scp -o StrictHostKeyChecking=no $host:analyze.sh $remote:analyze.sh;
+scp -o StrictHostKeyChecking=no $host:analyze.tmp.sh $remote:analyze.tmp.sh;
 chmod u+x agent.tmp.sh;
-chmod u+x analyze.sh;
-./analyze.sh $log_f;
+chmod u+x analyze.tmp.sh;
+./analyze.tmp.sh $log_f;
 scp -o StrictHostKeyChecking=no $log_f $center:log/log-$remote;
 rm $log_f;
 ./agent.tmp.sh $id;"
 fi
 
+rm agent.tmp.sh 2> /dev/null
+rm config 2> /dev/null
+rm analyze.tmp.sh 2> /dev/null
