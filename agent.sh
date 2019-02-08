@@ -1,11 +1,18 @@
 #!/bin/bash
 
-PASS=""
+#PASSWD
 
-echo -n "password : "
-read -s $PASS
+if [ "$PASS" = "" ]
+then
+    echo -n "password : "
+    read -s input
+    echo ""
+    PASS=$input
+    sed -e 's/^#PASSWD/PASS="'$PASS'"/g' agent.sh > agent.tmp.sh
+fi
 
 id=$1
+log_f="log.tmp"
 
 center="mickael@172.16.131.74"
 
@@ -24,10 +31,13 @@ sshpass -p $PASS ssh-copy-id -o StrictHostKeyChecking=no $host 2> /dev/null;
 sshpass -p $PASS ssh-copy-id -o StrictHostKeyChecking=no $center 2> /dev/null;
 
 scp -o StrictHostKeyChecking=no $host:config $remote:config;
-scp -o StrictHostKeyChecking=no $host:agent.sh $remote:agent.sh;
+scp -o StrictHostKeyChecking=no $host:agent.tmp.sh $remote:agent.tmp.sh;
 scp -o StrictHostKeyChecking=no $host:analyze.sh $remote:analyze.sh;
-./analyze.sh;
-scp -o StrictHostKeyChecking=no log $center:log/log-$remote;
-rm log;
-./agent.sh $id;"
+chmod u+x agent.tmp.sh;
+chmod u+x analyze.sh;
+./analyze.sh $log_f;
+scp -o StrictHostKeyChecking=no $log_f $center:log/log-$remote;
+rm $log_f;
+./agent.tmp.sh $id;"
 fi
+
