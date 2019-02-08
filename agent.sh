@@ -1,6 +1,9 @@
 #!/bin/bash
 
-PASS="agent123"
+PASS=""
+
+echo -n "password : "
+read -s $PASS
 
 id=$1
 
