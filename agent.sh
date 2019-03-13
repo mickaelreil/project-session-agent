@@ -3,7 +3,7 @@
 #PASSWD
 id=$1
 log_f="$id-log.tmp"
-center="mickael@192.168.204.139"
+center="mickael@192.168.204.141"
 config="$id-config"
 agent="$id-agent.tmp.sh"
 analyze="$id-analyze.tmp.sh"
@@ -39,7 +39,7 @@ scp -o StrictHostKeyChecking=no $host:$analyze $remote:$analyze;
 chmod u+x $agent;
 chmod u+x $analyze;
 ./$analyze $log_f;
-scp -o StrictHostKeyChecking=no $log_f $center:log/$id-log-$remote;
+scp -o StrictHostKeyChecking=no $log_f $center:log/log-$remote;
 rm $log_f;
 ./$agent $id > /dev/null;
 exit;"

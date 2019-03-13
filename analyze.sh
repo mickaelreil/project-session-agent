@@ -9,9 +9,10 @@ cpu=$(lscpu | head -18)
 devices=$(lsblk)
 usb=$(lsusb)
 hostname=$(uname -a)
+
 echo "update time : $date" > $file
 echo -e "\n">> $file
-echo "hostname : $hostname" >> $file
+echo "host system : $hostname" >> $file
 echo -e "\n">> $file
 echo "ip info : " >> $file
 echo "$ipconfig" >> $file
@@ -35,4 +36,3 @@ echo "$devices" >> $file
 echo -e "\n">> $file
 echo "USB controllers information : " >> $file
 echo "$usb" >> $file
-echo COPIE LOG

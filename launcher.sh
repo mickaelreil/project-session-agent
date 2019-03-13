@@ -1,6 +1,6 @@
 #!/bin/bash
 
-agents=4
+agents=6
 
 echo -n "password : "
 read -s input
@@ -11,5 +11,5 @@ do
     
     cp config-save "$i-config"
     cp analyze.sh "$i-analyze.tmp.sh"
-    echo $input | ./agent.sh $i
+    (echo $input | ./agent.sh $i) &
 done
