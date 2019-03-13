@@ -1,9 +1,6 @@
 #!/bin/bash
 
-agents=1
-
-cp config-save config
-cp analyze.sh analyze.tmp.sh
+agents=4
 
 echo -n "password : "
 read -s input
@@ -11,5 +8,8 @@ echo ""
 
 for i in $(seq $agents)
 do
+    
+    cp config-save "$i-config"
+    cp analyze.sh "$i-analyze.tmp.sh"
     echo $input | ./agent.sh $i
 done
