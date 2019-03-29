@@ -11,6 +11,7 @@ usb=$(lsusb)
 hostname=$(uname -a)
 
 echo "update time : $date" > $file
+echo "last modified by : $2" >> $file
 echo -e "\n">> $file
 echo "host system : $hostname" >> $file
 echo -e "\n">> $file
